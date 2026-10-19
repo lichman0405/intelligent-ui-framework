@@ -13,7 +13,7 @@ Last updated: 2026-10-19
 ## Stage status
 
 - [x] F0: source map, parity inventory, architecture, and contract freeze recorded.
-- [ ] F1: publishable core, renderer wrapper, theme, and independent demo.
+- [x] F1: publishable core, renderer wrapper, scoped theme, 16-sample Vite demo, npm tarball and clean Zod 4 consumer.
 - [ ] F2: state, components, actions, tool boundary, streaming, and safety coverage.
 - [ ] F3: generated component spec and model-independent prompt API; gallery/mock-stream verification.
 - [ ] F4: compatibility/security checks, clean npm consumer, package tarball, docs, and final local commit.
@@ -25,12 +25,16 @@ Last updated: 2026-10-19
 - `npm --version`: `11.19.0`
 - `git clone --filter=blob:none https://github.com/thesysdev/open-intelligent-ui.git reference/open-intelligent-ui`: passed after network access approval.
 - Reference SHA: `03213439358bf3408ad61a46ec9e3230c5572e48`.
-- No package tests or builds have run yet.
+- `npm run build`: passed, 51 core components and 59 functions; ESM and declarations emitted.
+- `npm test`: 302 passing tests (271 upstream function tests plus protocol and real Renderer checks); tests use UTC for upstream's date expectations.
+- `npm run demo:build`: passed on native Windows. Vite reports a 500 kB chunk warning from KaTeX/OpenUI/dynamic icon support; no build error.
+- `npm pack --pack-destination artifacts`: passed; tarball installed into sibling `../consumer-validation/zod-4.4.3/` with no reference/Forge sources.
+- `npm run verify:consumers -- --offline`: clean Zod 4 consumer passed ESM/SSR, protocol/prompt, zero-default-network smoke, strict consumer typecheck, and production Vite bundle.
+- Vitest's Windows sandbox temp rename failed initially. `scripts/test.mjs` now puts its temp cache under this repository and sets UTC; no product date semantics changed.
 
 ## Next
 
-1. Build a single npm package with `/protocol`, `/react`, `/prompt`, and `/styles.css` subpaths.
-2. Reuse `@openuidev/lang-core` and `@openuidev/react-lang`; keep React as a peer dependency.
-3. Port the reusable upstream components/functions, adapt host services, and omit untrusted HTML from the default registry.
-4. Generate and run actual typecheck, unit, build, package, demo, and clean-consumer checks.
+1. Finish Host tool/action lifecycle checks and partial-stream/error regressions (F2).
+2. Check generated spec/prompt drift, actual mock chunk sequences, and provider-free backend usage (F3).
+3. Finalize API/security/compatibility docs and run Zod 3.25 + Zod 4 clean-consumer/browser verification (F4).
 

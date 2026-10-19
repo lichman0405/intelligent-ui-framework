@@ -1,0 +1,6 @@
+@import "katex/dist/katex.min.css";
+@import "./react/components/theme.css";
+@import "./react/components/components.css";
+.iui-root { font-family: var(--iui-font); color: var(--iui-ink); line-height: 1.55; isolation: isolate; overflow-wrap: anywhere; }
+.iui-root *, .iui-root *::before, .iui-root *::after { box-sizing: border-box; }
+.iui-fallback { border: 1px solid #aaa; border-radius: 8px; padding: 12px; font: 14px/1.5 sans-serif; }

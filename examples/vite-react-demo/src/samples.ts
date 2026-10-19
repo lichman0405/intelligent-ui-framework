@@ -1,0 +1,18 @@
+export const samples = [
+  { id: "card", title: "Card and text", source: 'root = Card([Title("Independent UI", "md"), Text("Rendered locally with **OpenUI Lang**."), Badge("No model key", "success")])' },
+  { id: "slider", title: "Reactive slider", source: '$x = 4\nroot = Col([Title("Interactive example", "md"), Slider($x, 0, 10, 1, "Value"), Text("Selected: " + $x)])' },
+  { id: "input", title: "Reactive input", source: '$name = "Ada"\nroot = Col([Input($name, "Name"), Text("Hello " + $name)])' },
+  { id: "select", title: "Select and segments", source: '$choice = "Blue"\nroot = Col([Select($choice, ["Blue", "Green"], "Color"), SegmentedControl($choice, ["Blue", "Green"]), Text($choice)])' },
+  { id: "checkbox", title: "Checkbox", source: '$done = false\nroot = Col([Checkbox($done, "Finished"), Text($done ? "Complete" : "In progress")])' },
+  { id: "radio", title: "Radio choices", source: '$pace = "Relaxed"\nroot = Col([RadioGroup($pace, ["Relaxed", "Packed"], "Pace", "pills"), Text($pace)])' },
+  { id: "date", title: "Dates", source: '$date = "2026-10-19"\nroot = Col([DatePicker($date, "Day"), Text(@FormatDate($date, "long"))])' },
+  { id: "table", title: "Data table", source: 'root = Table(["Region", "Count"], [["North", 12], ["South", 18]])' },
+  { id: "chart", title: "Responsive chart", source: 'root = Chart("bar", [{day: "Mon", value: 12}, {day: "Tue", value: 18}, {day: "Wed", value: 14}], "day", ["value"])' },
+  { id: "svg", title: "Declarative SVG", source: 'root = Svg([Rect(10, 10, 180, 80, "surface", "info", 2), Circle(50, 50, 20, "chart1"), SvgText("SVG", 120, 55, 20, "ink", "middle")], "0 0 200 100")' },
+  { id: "list", title: "List functions", source: '$items = ["Alpha", "Beta"]\nroot = Col([Text(@Join($items, ", ")), Button("Append", @Set($items, @Append($items, "Gamma"))), List(@Each($items, "x", ListItem(x)))])' },
+  { id: "compute", title: "Local computation", source: '$years = 2\nroot = Col([Slider($years, 1, 10, 1, "Years"), Text("Balance: " + @Format(1000 * @Pow(1.05, $years), "currency"))])' },
+  { id: "text", title: "Text and formula", source: 'root = Col([Quote("A working tool in a message", "Framework demo"), Markdown("## Safe markdown\\nNo arbitrary HTML is injected."), Math("E = mc^2"), Code("const answer = 42", "typescript")])' },
+  { id: "form", title: "Host action", source: '$name = "Ada"\nroot = Form([Input($name, "Name"), Button("Continue", @ToAssistant("Help me choose"))])' },
+  { id: "tools", title: "Mock Query and Mutation", source: '$value = "example"\ndata = Query("demo_read", {}, {rows: []})\nsave = Mutation("demo_save", {value: $value})\nroot = Col([Table(["Name", "Count"], data.rows), Input($value, "Value"), Button("Save mock", @Run(save))])' },
+  { id: "forward", title: "Forward references and long text", source: 'root = Col([heading, body])\nheading = Title("Forward references", "md")\nbody = Text("' + "Readable content with bounded source and local state. ".repeat(70) + '")' },
+] as const;

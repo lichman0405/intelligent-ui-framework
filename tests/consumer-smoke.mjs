@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+let requests = 0;
+globalThis.fetch = async () => { requests++; throw new Error("Unexpected network request"); };
+const { createArtifact, validateArtifact } = await import("@intelligent-ui/framework/protocol");
+const { createSystemPrompt, getComponentSpec } = await import("@intelligent-ui/framework/prompt");
+assert.equal(typeof globalThis.window, "undefined");
+const { IntelligentUIRenderer, createIuiLibrary } = await import("@intelligent-ui/framework/react");
+const React = await import("react");
+const { renderToString } = await import("react-dom/server");
+const artifact = createArtifact('root = Card([Title("Clean consumer", "md"), Text("Standalone")])', "clean");
+assert.equal(validateArtifact(JSON.parse(JSON.stringify(artifact))).success, true);
+assert.ok(renderToString(React.createElement(IntelligentUIRenderer, { artifact })).includes("Clean consumer"));
+assert.equal(Object.keys(createIuiLibrary().components).length, 51);
+assert.equal(Object.keys(getComponentSpec().components).length, 51);
+assert.ok(createSystemPrompt().includes("Slider"));
+await new Promise(resolve => setTimeout(resolve, 10));
+assert.equal(requests, 0);
+console.log("ESM SSR, pure protocol/prompt and zero default network requests passed");

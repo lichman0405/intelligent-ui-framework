@@ -1,0 +1,11 @@
+node_modules/
+.npm-cache/
+.build/
+.tmp/
+dist/
+*.tgz
+artifacts/
+examples/**/dist/
+tests/consumers/**/node_modules/
+tests/consumers/**/dist/
+*.log

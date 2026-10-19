@@ -66,7 +66,7 @@ Additive runtime capabilities in 0.1.0:
 
 `@ToAssistant` becomes `{kind:"continue_conversation",message,formState}`. Registered custom actions become `{kind:"custom_action",name,params}`. `CopyToClipboard` uses `copyText` when supplied. OpenUrl and rendered Markdown/Link clicks use `openUrl`; URLs with unsafe schemes or credentials are rejected. An unknown action is rejected.
 
-`createHostBridge(adapter, context, options?)` is public for adapter tests. It exposes `toolProvider`, `dispatch`, `stateChanged`, and `dispose`; optional budgets default to 100 tool invocations and 4 concurrent calls per lifecycle. Identical concurrent tool requests and actions are coalesced. There is no persisted mutation-result cache: Host must enforce approval and durable idempotency. Disposal rejects outstanding framework promises; Host `onDispose` must cancel underlying I/O because the frozen `invokeTool` signature does not carry an AbortSignal.
+`createHostBridge(adapter, context, options?)` is public for adapter tests. It exposes `toolProvider`, `dispatch`, `stateChanged`, and `dispose`; optional budgets default to 100 tool invocations, 4 concurrent calls and a 30-second response timeout per lifecycle. Identical concurrent tool requests and actions are coalesced. There is no persisted mutation-result cache: Host must enforce approval and durable idempotency. Disposal rejects outstanding framework promises; Host `onDispose` must cancel underlying I/O because the frozen `invokeTool` signature does not carry an AbortSignal. Timeout drops a late result; Host still owns cancellation of its native work.
 
 ## Prompt API
 

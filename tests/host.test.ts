@@ -25,6 +25,12 @@ describe("controlled Host capabilities", () => {
       await expect(bridge.toolProvider.read({})).rejects.toThrow("invalid or oversized");
     }
   });
+  it("bounds hung requests and redacts Host exception secrets", async () => {
+    const bridge = createHostBridge({ allowedTools: ["read"], invokeTool: () => new Promise(() => {}) }, ctx, { toolTimeoutMs: 5 });
+    await expect(bridge.toolProvider.read({})).rejects.toThrow("timed out");
+    const failed = createHostBridge({ allowedTools: ["read"], invokeTool: async () => { throw new Error("private-secret"); } }, ctx);
+    await expect(failed.toolProvider.read({})).rejects.toThrow(/^Host tool failed$/);
+  });
   it("deduplicates concurrent identical requests without replaying a settled mutation", async () => {
     let finish!: (value: null) => void;
     const invokeTool = vi.fn(() => new Promise<null>(resolve => { finish = resolve; }));

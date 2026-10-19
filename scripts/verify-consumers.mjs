@@ -3,8 +3,9 @@ import { resolve, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 const root = resolve(".");
-const output = resolve("..", "consumer-validation");
 const tarball = resolve("artifacts/intelligent-ui-framework-0.1.0.tgz");
+const sha256 = createHash("sha256").update(await readFile(tarball)).digest("hex");
+const output = resolve("..", "consumer-validation", sha256.slice(0, 12));
 const lock = JSON.parse(await readFile("package-lock.json", "utf8"));
 const versions = process.argv.includes("--both") ? ["4.4.3", "3.25.76"] : ["4.4.3"];
 await mkdir("artifacts", { recursive: true });
@@ -35,4 +36,4 @@ for (const zod of versions) {
     console.log(`Clean consumer ${zod}: installed tarball, SSR/prompt/protocol imports, typecheck and production bundle passed`);
   } finally { await writeFile(join(root, "artifacts", `consumer-zod-${zod}.log`), logs.join("\n")); }
 }
-await writeFile("artifacts/consumer-results.json", JSON.stringify({ tarball, sha256: createHash("sha256").update(await readFile(tarball)).digest("hex"), node: process.version, results }, null, 2));
+await writeFile("artifacts/consumer-results.json", JSON.stringify({ tarball, sha256, node: process.version, results }, null, 2));

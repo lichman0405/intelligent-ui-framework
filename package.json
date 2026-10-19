@@ -40,12 +40,13 @@
     "demo": "vite --config examples/vite-react-demo/vite.config.ts",
     "demo:build": "vite build --config examples/vite-react-demo/vite.config.ts",
     "verify:consumers": "node scripts/verify-consumers.mjs",
+    "verify:browser": "node scripts/verify-browser.mjs",
     "prepack": "npm run build"
   },
   "dependencies": {
     "@openuidev/lang-core": "1.0.0",
     "@openuidev/react-lang": "1.0.0",
-    "katex": "^0.16.47",
+    "katex": "0.18.2",
     "lucide-react": "^0.562.0"
   },
   "peerDependencies": {

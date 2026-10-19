@@ -8,7 +8,8 @@ Status is relative to the upstream application at commit `03213439358bf3408ad61a
 | Text | Title, Text, Caption, Label, Badge, Link, List, ListItem, Markdown, Quote, Code, Math | Core | KaTeX is an explicit runtime dependency for Math; links restricted to HTTP(S) |
 | Inputs | Button, IconButton, Pressable, Input, TextArea, Select, SegmentedControl, Slider, Checkbox, RadioGroup, DatePicker, Timer | Core | Reactive fields use OpenUI `useStateField`; persisted state passes JSON/size validation |
 | Data display | Table, Chart | Core | Chart is native SVG/DOM and responsive; no remote data source |
-| Media | Icon, Image, SearchImage, YouTube | Core with host resolver | `SearchImage` has no built-in network endpoint; host `resolveImage` is opt-in. YouTube embed host is fixed |
+| Media | Icon, Image, SearchImage | Core with host resolver | `SearchImage` has no built-in network endpoint; host `resolveImage` is opt-in |
+| Third-party video | YouTube | Trusted extras | Fixed embed origin; requires `core-trusted@0.1.0` plus `mode="trusted-extras"` |
 | Drawing | Svg, G, Circle, Ellipse, Rect, Line, Path, Polyline, Polygon, SvgText | Core | Declarative SVG only; no script or external resource loading |
 | Play | Carousel, Popover, Flashcard, Celebration | Core | DOM portals are created on interaction; cleanup is component-scoped |
 | Maps | Map, MapMarker | Optional/blocked | MapLibre is separable; upstream street-route hook calls an app-local endpoint and must be replaced with a typed host resolver before enabling |
@@ -19,5 +20,5 @@ Status is relative to the upstream application at commit `03213439358bf3408ad61a
 | Streaming | OpenUI Lang incremental parse and forward references | Core | Delegated directly to official Renderer with accumulated source and `isStreaming` |
 | Prompt generation | Component/function/action signatures and prompt rules | Core | Official `generateSystemPrompt` over checked-in generated LibrarySpec; no model/network client |
 
-The final status will be updated against actual build and consumer evidence in F4. Anything marked optional or blocked is omitted from `core` and does not prevent core installation or rendering.
+The core registry has 51 components and 59 functions. Trusted extras add one component (52 total); Map, MapMarker and HtmlView are not shipped. Anything marked optional or blocked is omitted from `core` and does not prevent core installation or rendering. Actual consumer/browser evidence is described in `DELIVERY.md`.
 

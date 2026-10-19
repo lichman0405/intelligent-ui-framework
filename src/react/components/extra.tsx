@@ -166,7 +166,7 @@ export const MathBlock = defineComponent({
   props: z.object({ tex: z.string(), inline: z.boolean().optional() }),
   description: 'LaTeX formula, e.g. Math("E = mc^2"); inline true to sit in a Text list.',
   component: ({ props }) => {
-    const html = katex.renderToString(str(props.tex), { displayMode: !props.inline, throwOnError: false, trust: false, strict: "ignore", output: "htmlAndMathml" });
+    const html = katex.renderToString(str(props.tex), { displayMode: !props.inline, throwOnError: false, trust: false, maxExpand: 500, maxSize: 20, strict: "ignore", output: "htmlAndMathml" });
     // KaTeX escapes its input and is configured without \href or \includegraphics.
     return props.inline ? <span className="iui-math" dangerouslySetInnerHTML={{ __html: html }} /> : <div className="iui-math is-block" dangerouslySetInnerHTML={{ __html: html }} />;
   },

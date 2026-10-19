@@ -16,7 +16,7 @@ Last updated: 2026-10-19
 - [x] F1: publishable core, renderer wrapper, scoped theme, 16-sample Vite demo, npm tarball and clean Zod 4 consumer.
 - [x] F2: state, components, actions, allowlisted tools, bounded requests, disposal, replay safety, optional resolvers and trusted video gating.
 - [x] F3: generated component spec and backend Prompt API without React; 16 gallery samples, 4 upstream prompt examples and real mock-stream chunks verified.
-- [ ] F4: compatibility/security checks, clean npm consumer, package tarball, docs, and final local commit.
+- [x] F4: compatibility/security checks, clean dual-Zod consumers, real browser acceptance, npm tarball, docs, and local-only delivery.
 
 ## Commands and evidence
 
@@ -36,10 +36,24 @@ Last updated: 2026-10-19
 - F3 additional suite: 9 tests passed for spec drift/defensive copies, backend bundling without React, tool-aware prompt generation, 7-character async stream chunks, interrupted-source recovery, and four preserved upstream prompt examples.
 - Added `docs/API.md`, `docs/HOST_INTEGRATION.md`, `docs/CHANGELOG.md`, and a real `docs/fixtures/artifact-v1.json` for the independent Host integrator.
 - Dependency audit: runtime telemetry in lang-core 1.0.0 is opt-in, but its npm postinstall sends installation telemetry unless disabled. All project/consumer installs so far use `--ignore-scripts`; final installation docs will document `OPENUI_TELEMETRY_DISABLED=1`.
+- Final native Windows checks: Node 22.12.0 and 26.7.0 built the package and passed 334 tests across 11 files. Official Node 22 archive was SHA-256 checked before execution; runtime is local under ignored `.tools/`.
+- Production audit identified the upstream KaTeX advisory; pinning patched KaTeX 0.18.2 resolved it. Final `npm audit --omit=dev` reports 0 advisories.
+- Fresh tarball-only consumers with React 19.2.3 and Zod 4.4.3 / 3.25.76 passed strict typecheck, production Vite build, SSR/ESM/protocol/prompt imports, zero-default-network smoke, and intentional CommonJS rejection.
+- Chrome 155.0.8059.80 passed all 16 gallery samples in both consumers, state save/reload, streaming/interruption, Host actions, Query/Mutation, themes and 390px mobile layout. No browser console/page errors or external requests. Screenshots are in `artifacts/`.
+- Browser verification found standalone dark neutrals still depending on the upstream app's globals. Fixed by defining full scoped light/dark tokens; both final consumers then passed. The sandbox initially denied the local browser server; authorized local-network execution completed the checks.
+- Final artifact hash, fresh consumer paths, browser version and package integrity are recorded in `artifacts/{consumer-results,browser-results,pack}.json`; reproducibility comparison is recorded in `artifacts/reproducibility.json`.
+
+## Local phase commits
+
+- F0: `2d20903` — source map, architecture and unchanged contract freeze.
+- F1: `6aef858` — standalone core, renderer, demo and clean consumer.
+- F2: `1cf8db5` — tool/action lifecycle and interaction verification.
+- F3: `e78f1cb` — generated Prompt API, chunk streams and Host integration docs.
+- F4: the final local commit after this log; identify with `git log -1 --oneline`. No remote is configured and no push is performed.
 
 ## Next
 
-1. Finish Host tool/action lifecycle checks and partial-stream/error regressions (F2).
-2. Check generated spec/prompt drift, actual mock chunk sequences, and provider-free backend usage (F3).
-3. Finalize API/security/compatibility docs and run Zod 3.25 + Zod 4 clean-consumer/browser verification (F4).
+1. The independent integrator should install `artifacts/intelligent-ui-framework-0.1.0.tgz`, read `docs/HOST_INTEGRATION.md`, and consume only public exports and the real artifact fixture.
+2. Forge/Electron integration is intentionally unexecuted here. Host owns IPC, native cancellation, permissions/approval, persistence, CSP and durable mutation idempotency.
+3. Known limits: ESM only; Map/MapMarker deferred, HtmlView disabled, full registry has a Vite size warning. See `docs/COMPATIBILITY.md` and `docs/PARITY_MATRIX.md`.
 

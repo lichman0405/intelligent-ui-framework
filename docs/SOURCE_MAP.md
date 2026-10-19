@@ -35,3 +35,12 @@ The reference is an OpenUI-powered Next.js application. This project uses its re
 
 The component and function implementations adapted from the MIT reference retain their upstream copyright notices where present. `THIRD_PARTY_NOTICES.md` records the reference repository and reuse scope. New protocol, host adapter, package wrapper, tests, demo shell, and documentation are original Framework files. The OpenUI Lang parser and Renderer are loaded from their official npm packages, not copied or reimplemented.
 
+## File-level reuse classification
+
+- Direct copies: `src/react/functions/{colors,data,dates,index,lists,numbers,shared,text}.ts` and their `__tests__` folder; `src/react/components/{layout,text,markdown,glyph,controls,table,chart,svg}.tsx`; `src/react/prompt-options.ts` and `demo-data.ts` (the last two retain upstream examples for parity tests and are not public package services).
+- Modified copies: `src/react/actions.ts`; `src/react/components/{media,extra}.tsx`, `style.ts`, `theme.css`, and `components.css`; the `lucide-dynamic.d.ts` declaration is adapted from the upstream declaration.
+- Original implementation: `src/protocol/`, `src/prompt/`, `src/react/{host,renderer,index,library}`; public root entry, styles entry, packaging/build/verification scripts, standalone demo shell and its 16 samples, protocol/host/rendering/security tests, and Framework docs.
+- Generated: `src/generated/*-spec.json` comes from the corresponding actual library `toSpec()` output. It is checked in for review and drift-tested.
+
+KaTeX was upgraded from upstream 0.16.47 to patched 0.18.2 after the production advisory audit. Its bundled CSS/font license is reproduced under `docs/licenses/`.
+

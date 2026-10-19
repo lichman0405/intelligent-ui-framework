@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 let requests = 0;
 globalThis.fetch = async () => { requests++; throw new Error("Unexpected network request"); };
 const { createArtifact, validateArtifact } = await import("@intelligent-ui/framework/protocol");
@@ -13,6 +14,7 @@ assert.ok(renderToString(React.createElement(IntelligentUIRenderer, { artifact }
 assert.equal(Object.keys(createIuiLibrary().components).length, 51);
 assert.equal(Object.keys(getComponentSpec().components).length, 51);
 assert.ok(createSystemPrompt().includes("Slider"));
+assert.throws(() => createRequire(import.meta.url)("@intelligent-ui/framework"), { code: "ERR_PACKAGE_PATH_NOT_EXPORTED" });
 await new Promise(resolve => setTimeout(resolve, 10));
 assert.equal(requests, 0);
 console.log("ESM SSR, pure protocol/prompt and zero default network requests passed");

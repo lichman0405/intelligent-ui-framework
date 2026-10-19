@@ -6,7 +6,7 @@ export function safeWebUrl(value: unknown): string | null {
   if (typeof value !== "string" || value.length > 8192) return null;
   try { const url = new URL(value); return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password ? url.href : null; } catch { return null; }
 }
-export interface HostBridgeOptions { maxCalls?: number; maxConcurrent?: number; customActions?: readonly string[]; onError?: (errors: Diagnostic[]) => void }
+export interface HostBridgeOptions { maxCalls?: number; maxConcurrent?: number; toolTimeoutMs?: number; customActions?: readonly string[]; onError?: (errors: Diagnostic[]) => void }
 /** Holds only named callback capabilities. Never passes Host objects to OpenUI. */
 export function createHostBridge(host: UIHostAdapter = {}, context: UIActionContext, options: HostBridgeOptions = {}) {
   const ctx = Object.freeze({ ...context });
@@ -29,16 +29,23 @@ export function createHostBridge(host: UIHostAdapter = {}, context: UIActionCont
       if (pending.has(key)) return pending.get(key);
       if (++calls > (options.maxCalls ?? 100) || active >= (options.maxConcurrent ?? 4)) throw new Error("Tool resource budget exceeded");
       active++;
+      let cleanup = () => {};
       const request = new Promise<unknown>((resolve, reject) => {
         const abort = () => reject(new Error("Artifact request cancelled"));
+        const timer = setTimeout(() => reject(new Error("Host tool timed out")), options.toolTimeoutMs ?? 30_000);
         controller.signal.addEventListener("abort", abort, { once: true });
-        Promise.resolve().then(() => { check(); return host.invokeTool!(name, args.data, ctx); }).then(value => {
+        cleanup = () => { clearTimeout(timer); controller.signal.removeEventListener("abort", abort); };
+        Promise.resolve().then(async () => {
+          check();
+          try { return await host.invokeTool!(name, args.data, ctx); }
+          catch { throw new Error("Host tool failed"); }
+        }).then(value => {
           check();
           const result = validateJSON(value, { maxBytes: 262_144 });
           if (!result.success) throw new Error("Host returned invalid or oversized tool JSON");
           resolve(result.data);
-        }).catch(reject).finally(() => controller.signal.removeEventListener("abort", abort));
-      }).finally(() => { active--; pending.delete(key); });
+        }).catch(reject);
+      }).finally(() => { cleanup(); active--; pending.delete(key); });
       pending.set(key, request);
       return request;
     };

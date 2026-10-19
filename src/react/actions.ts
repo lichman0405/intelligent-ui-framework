@@ -8,4 +8,3 @@ export const CopyToClipboard = defineAction({
 });
 
 export const actions = [CopyToClipboard];
-

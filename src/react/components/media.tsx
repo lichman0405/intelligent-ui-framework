@@ -28,22 +28,23 @@ export const Icon = defineComponent({
 /** Search results for `query`, or undefined while waiting. The query settles first: it may still be streaming. */
 function useImageSearch(query: string | null): string[] | undefined {
   const bridge = useIuiHost();
-  const [result, setResult] = useState<{ query: string; images: string[] } | null>(null);
+  const [result, setResult] = useState<{ query: string; bridge: typeof bridge; images: string[] } | null>(null);
   useEffect(() => {
     if (!query) return;
     let active = true;
     const timer = setTimeout(() => {
       Promise.resolve().then(() => bridge?.host.resolveImage?.(query.slice(0, 2048), bridge.context) ?? []).then((images) => {
         const safe = Array.isArray(images) ? images.slice(0, 64).flatMap(image => { const url = webUrl(image?.url); return url ? [url] : []; }) : [];
-        if (active) setResult({ query, images: [...new Set(safe)] });
-      }).catch(() => { if (active) setResult({ query, images: [] }); });
+        if (active) setResult({ query, bridge, images: [...new Set(safe)] });
+      }).catch(() => { if (active) setResult({ query, bridge, images: [] }); });
     }, 500);
     return () => {
       active = false;
       clearTimeout(timer);
     };
   }, [query, bridge]);
-  return query && result?.query === query ? result.images : undefined;
+  if (!bridge?.host.resolveImage) return [];
+  return query && result?.query === query && result.bridge === bridge ? result.images : undefined;
 }
 
 type PhotoProps = { query: string; src?: string | null; aspectRatio?: number | null; radius?: unknown; fit?: string | null };

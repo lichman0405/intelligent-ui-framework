@@ -1,6 +1,6 @@
 {
   "name": "@intelligent-ui/framework",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standalone OpenUI Lang component framework and controlled host adapter",
   "license": "MIT",
   "type": "module",
@@ -31,7 +31,36 @@
       "types": "./dist/prompt/index.d.ts",
       "import": "./dist/prompt/index.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./adapters": {
+      "import": "./dist/adapters/index.js",
+      "types": "./dist/adapters/index.d.ts"
+    },
+    "./gallery": {
+      "import": "./dist/gallery/index.js",
+      "types": "./dist/gallery/index.d.ts"
+    },
+    "./benchmark": {
+      "import": "./dist/benchmark/index.js",
+      "types": "./dist/benchmark/index.d.ts"
+    },
+    "./plugins/map": {
+      "import": "./dist/plugins/map/index.js",
+      "types": "./dist/plugins/map/index.d.ts"
+    },
+    "./plugins/html": {
+      "import": "./dist/plugins/html/index.js",
+      "types": "./dist/plugins/html/index.d.ts"
+    },
+    "./plugins/upstream": {
+      "import": "./dist/plugins/upstream.js",
+      "types": "./dist/plugins/upstream.d.ts"
+    },
+    "./map-worker": {
+      "import": "./dist/map-worker.js",
+      "types": "./dist/map-worker.d.ts"
+    },
+    "./plugins/map/styles.css": "./dist/plugins/map/styles.css"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -41,15 +70,20 @@
     "demo:build": "vite build --config examples/vite-react-demo/vite.config.ts",
     "verify:consumers": "node scripts/verify-consumers.mjs",
     "verify:browser": "node scripts/verify-browser.mjs",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "bench": "node tools/bench/run.mjs",
+    "bench:fixtures": "node tools/bench/run.mjs --fixtures",
+    "verify:upstream-browser": "node scripts/verify-upstream-browser.mjs"
   },
   "dependencies": {
     "@openuidev/lang-core": "1.0.0",
     "@openuidev/react-lang": "1.0.0",
+    "@types/geojson": "^7946.0.16",
     "katex": "0.18.2",
     "lucide-react": "^0.562.0"
   },
   "peerDependencies": {
+    "maplibre-gl": "^6.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^3.25.0 || ^4.0.0"
@@ -62,6 +96,7 @@
     "@types/react-dom": "^19.0.0",
     "esbuild": "^0.25.0",
     "jsdom": "^27.0.0",
+    "maplibre-gl": "^6.13.0",
     "playwright-core": "^1.64.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -72,5 +107,10 @@
   },
   "engines": {
     "node": ">=22.12.0"
+  },
+  "peerDependenciesMeta": {
+    "maplibre-gl": {
+      "optional": true
+    }
   }
 }

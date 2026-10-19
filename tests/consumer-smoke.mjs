@@ -14,6 +14,18 @@ assert.ok(renderToString(React.createElement(IntelligentUIRenderer, { artifact }
 assert.equal(Object.keys(createIuiLibrary().components).length, 51);
 assert.equal(Object.keys(getComponentSpec().components).length, 51);
 assert.ok(createSystemPrompt().includes("Slider"));
+assert.ok(createSystemPrompt({}, "upstream").includes("HtmlView"));
+const { upstreamRegistration, upstreamRegistry } = await import("@intelligent-ui/framework/plugins/upstream");
+const { galleryPrograms } = await import("@intelligent-ui/framework/gallery");
+const { createWebResolvers, createArtifactStore } = await import("@intelligent-ui/framework/adapters");
+const { runBenchmark } = await import("@intelligent-ui/framework/benchmark");
+assert.equal(Object.keys(upstreamRegistration.library.components).length, 55);
+assert.equal(galleryPrograms.length, 45);
+assert.equal(typeof createWebResolvers().resolveRoute, "function");
+assert.equal(typeof createArtifactStore, "function");
+const html = createArtifact('root = HtmlView("<b>Sandbox</b>")', "html", undefined, { libraryId: "upstream", libraryVersion: "0.1.0" });
+assert.ok(renderToString(React.createElement(IntelligentUIRenderer, { artifact: html, registry: upstreamRegistry })).includes('sandbox="allow-scripts"'));
+assert.equal((await runBenchmark([{ id: "test", prompt: "test" }], async () => 'root = Text("OK")'))[0].passed, true);
 assert.throws(() => createRequire(import.meta.url)("@intelligent-ui/framework"), { code: "ERR_PACKAGE_PATH_NOT_EXPORTED" });
 await new Promise(resolve => setTimeout(resolve, 10));
 assert.equal(requests, 0);

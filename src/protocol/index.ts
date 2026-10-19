@@ -32,7 +32,7 @@ export interface UIHostAdapter {
 export const PROTOCOL_VERSION = "1.0" as const;
 export const LIBRARY_ID = "core";
 export const LIBRARY_VERSION = "0.1.0";
-export const PACKAGE_VERSION = "0.1.0";
+export const PACKAGE_VERSION = "0.2.0";
 export interface Diagnostic { code: string; message: string; path?: string }
 export interface ValidationLimits { maxBytes: number; maxSourceBytes: number; maxStateBytes: number; maxDepth: number; maxNodes: number }
 export const DEFAULT_LIMITS: Readonly<ValidationLimits> = Object.freeze({ maxBytes: 1_048_576, maxSourceBytes: 262_144, maxStateBytes: 262_144, maxDepth: 32, maxNodes: 30_000 });
@@ -103,9 +103,9 @@ export function validateArtifact(value: unknown, options: ArtifactValidationOpti
   if (a.metadata !== undefined && (!isJsonRecord(a.metadata) || Object.entries(a.metadata).some(([k, v]) => !["title", "provenance"].includes(k) || typeof v !== "string" || v.length > 4096))) fail("invalid-metadata", "Metadata only accepts bounded title/provenance strings");
   return errors.length ? { success: false, errors } : { success: true, data: a as unknown as UIArtifactV1 };
 }
-export function createArtifact(source: string, artifactId: string, state?: Record<string, JSONValue>): UIArtifactV1 {
-  const artifact: UIArtifactV1 = { kind: "intelligent_ui", protocolVersion: PROTOCOL_VERSION, artifactId, language: "openui-lang", libraryId: LIBRARY_ID, libraryVersion: LIBRARY_VERSION, source, ...(state ? { state } : {}) };
-  const result = validateArtifact(artifact);
+export function createArtifact(source: string, artifactId: string, state?: Record<string, JSONValue>, signature?: { libraryId: string; libraryVersion: string }): UIArtifactV1 {
+  const artifact: UIArtifactV1 = { kind: "intelligent_ui", protocolVersion: PROTOCOL_VERSION, artifactId, language: "openui-lang", libraryId: signature?.libraryId ?? LIBRARY_ID, libraryVersion: signature?.libraryVersion ?? LIBRARY_VERSION, source, ...(state ? { state } : {}) };
+  const result = validateArtifact(artifact, signature ? { supportedLibraries: { [signature.libraryId]: [signature.libraryVersion] } } : undefined);
   if (!result.success) throw new Error(result.errors.map(e => e.message).join("; "));
   return result.data;
 }

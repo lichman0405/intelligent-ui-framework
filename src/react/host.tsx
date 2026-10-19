@@ -6,7 +6,7 @@ export function safeWebUrl(value: unknown): string | null {
   if (typeof value !== "string" || value.length > 8192) return null;
   try { const url = new URL(value); return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password ? url.href : null; } catch { return null; }
 }
-export interface HostBridgeOptions { maxCalls?: number; maxConcurrent?: number; toolTimeoutMs?: number; customActions?: readonly string[]; onError?: (errors: Diagnostic[]) => void }
+export interface HostBridgeOptions { maxCalls?: number; maxConcurrent?: number; toolTimeoutMs?: number; maxToolResultBytes?: number; maxToolResultNodes?: number; customActions?: readonly string[]; onError?: (errors: Diagnostic[]) => void }
 /** Holds only named callback capabilities. Never passes Host objects to OpenUI. */
 export function createHostBridge(host: UIHostAdapter = {}, context: UIActionContext, options: HostBridgeOptions = {}) {
   const ctx = Object.freeze({ ...context });
@@ -41,7 +41,7 @@ export function createHostBridge(host: UIHostAdapter = {}, context: UIActionCont
           catch { throw new Error("Host tool failed"); }
         }).then(value => {
           check();
-          const result = validateJSON(value, { maxBytes: 262_144 });
+          const result = validateJSON(value, { maxBytes: options.maxToolResultBytes ?? 262_144, maxNodes: options.maxToolResultNodes ?? 30_000 });
           if (!result.success) throw new Error("Host returned invalid or oversized tool JSON");
           resolve(result.data);
         }).catch(reject);

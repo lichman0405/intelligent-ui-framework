@@ -263,4 +263,3 @@ export const Celebration = defineComponent({
     );
   },
 });
-

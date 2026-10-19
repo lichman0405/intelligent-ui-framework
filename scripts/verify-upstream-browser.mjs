@@ -62,6 +62,7 @@ try {
     await page.getByLabel("Enable Wikipedia/Commons image search and OSRM routes").check();
     await page.waitForFunction(() => document.querySelector(".iui-map-slot")?.textContent.includes("Street route loaded."));
     assert.ok(routes > 0, "Host road resolver was not called");
+    await page.waitForTimeout(1000); // Let the original route-drawing animation complete before capture.
     await page.screenshot({ path: resolve(`artifacts/upstream-map-zod-${consumer.zod}.png`), fullPage: true });
     await apply('root = SearchImage("Fixture subject")'); await page.locator('.preview .iui-root img').waitFor(); assert.ok(imageSearch > 0);
     await page.getByLabel("Enable Wikipedia/Commons image search and OSRM routes").uncheck();
@@ -80,7 +81,9 @@ try {
     assert.ok(await page.locator(".iui-html-view").evaluate(el => el.getBoundingClientRect().height) < 2400);
     await page.screenshot({ path: resolve(`artifacts/upstream-html-zod-${consumer.zod}.png`), fullPage: true });
     await apply(`root = HtmlView(${JSON.stringify('<button id="escape" onclick="location.href=\'https://deny.example/navigation\'">Navigate</button>')}, null, "Navigation fixture")`);
-    const navigation = page.frameLocator('iframe[title="Navigation fixture"]'); await navigation.getByRole("button", { name: "Navigate" }).click(); await page.waitForTimeout(200); await navigation.getByRole("button", { name: "Navigate" }).waitFor();
+    const navigation = page.frameLocator('iframe[title="Navigation fixture"]'); await navigation.getByRole("button", { name: "Navigate" }).click(); await page.waitForTimeout(200);
+    // Chromium may replace the blocked frame with an error document; assert the policy, not retained contents.
+    assert.ok(consoleErrors.some(message => message.includes("deny.example") && /Content Security Policy/.test(message)), "Parent CSP did not report blocked frame navigation");
     assert.equal(requests.some(url => url.includes("deny.example")), false, "CSP allowed a forbidden request");
     assert.deepEqual(errors, []);
     const expectedCsp = consoleErrors.slice(expectedErrors); assert.ok(expectedCsp.every(message => /Content Security Policy|Refused to connect|violates.*policy|Fetch API cannot load/i.test(message)), JSON.stringify(expectedCsp));

@@ -1,0 +1,11 @@
+{
+  "kind": "intelligent_ui",
+  "protocolVersion": "1.0",
+  "artifactId": "demo-chart-001",
+  "language": "openui-lang",
+  "libraryId": "core",
+  "libraryVersion": "0.1.0",
+  "source": "$x = 4\nroot = Col([Title(\"Interactive example\", \"md\"), Slider($x, 0, 10, 1, \"Value\"), Text(\"Selected: \" + $x)])",
+  "state": { "$x": 4 },
+  "metadata": { "title": "Interactive example" }
+}

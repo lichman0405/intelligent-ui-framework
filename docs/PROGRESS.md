@@ -15,7 +15,7 @@ Last updated: 2026-10-19
 - [x] F0: source map, parity inventory, architecture, and contract freeze recorded.
 - [x] F1: publishable core, renderer wrapper, scoped theme, 16-sample Vite demo, npm tarball and clean Zod 4 consumer.
 - [x] F2: state, components, actions, allowlisted tools, bounded requests, disposal, replay safety, optional resolvers and trusted video gating.
-- [ ] F3: generated component spec and model-independent prompt API; gallery/mock-stream verification.
+- [x] F3: generated component spec and backend Prompt API without React; 16 gallery samples, 4 upstream prompt examples and real mock-stream chunks verified.
 - [ ] F4: compatibility/security checks, clean npm consumer, package tarball, docs, and final local commit.
 
 ## Commands and evidence
@@ -33,6 +33,9 @@ Last updated: 2026-10-19
 - Vitest's Windows sandbox temp rename failed initially. `scripts/test.mjs` now puts its temp cache under this repository and sets UTC; no product date semantics changed.
 - F2 targeted Host/integration suite: 20 tests passed, including no automatic mutation on hydration/replay, unknown tools/actions, URL schemes, resolver behavior, concurrent request/action deduplication, request budgets and lifecycle cancellation.
 - Completed-source preflight uses the official parser and prevents an invalid completed artifact from mounting a tool-capable Renderer. Unknown/incomplete source produces a diagnostic and safe fallback.
+- F3 additional suite: 9 tests passed for spec drift/defensive copies, backend bundling without React, tool-aware prompt generation, 7-character async stream chunks, interrupted-source recovery, and four preserved upstream prompt examples.
+- Added `docs/API.md`, `docs/HOST_INTEGRATION.md`, `docs/CHANGELOG.md`, and a real `docs/fixtures/artifact-v1.json` for the independent Host integrator.
+- Dependency audit: runtime telemetry in lang-core 1.0.0 is opt-in, but its npm postinstall sends installation telemetry unless disabled. All project/consumer installs so far use `--ignore-scripts`; final installation docs will document `OPENUI_TELEMETRY_DISABLED=1`.
 
 ## Next
 

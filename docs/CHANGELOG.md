@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-10-19
+
+- Completed optional Map/MapMarker and HtmlView; all 55 original components are available through explicit upstream registration. Added packaged MapLibre worker/CSS and strict GeoJSON declarations.
+- Added versioned custom registries and component/function/action plugins without changing protocol 1.0 or core@0.1.0.
+- Added bounded Wikipedia/Commons/OSRM adapters, caller-owned artifact storage and navigation/clipboard ports.
+- Preserved full original prompt strategy, dashboard presets and all 45 original programs, alongside the 16 framework examples.
+- Added provider-neutral benchmark API, original 24 model prompts, fixture/saved/SSE CLI and full browser checks of installed tarball consumers.
+
 ## 0.1.0 — 2026-10-19
 
 - Initial standalone package with protocol, React, Prompt and styles entry points.

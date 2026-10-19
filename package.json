@@ -33,32 +33,32 @@
     },
     "./styles.css": "./dist/styles.css",
     "./adapters": {
-      "import": "./dist/adapters/index.js",
-      "types": "./dist/adapters/index.d.ts"
+      "types": "./dist/adapters/index.d.ts",
+      "import": "./dist/adapters/index.js"
     },
     "./gallery": {
-      "import": "./dist/gallery/index.js",
-      "types": "./dist/gallery/index.d.ts"
+      "types": "./dist/gallery/index.d.ts",
+      "import": "./dist/gallery/index.js"
     },
     "./benchmark": {
-      "import": "./dist/benchmark/index.js",
-      "types": "./dist/benchmark/index.d.ts"
+      "types": "./dist/benchmark/index.d.ts",
+      "import": "./dist/benchmark/index.js"
     },
     "./plugins/map": {
-      "import": "./dist/plugins/map/index.js",
-      "types": "./dist/plugins/map/index.d.ts"
+      "types": "./dist/plugins/map/index.d.ts",
+      "import": "./dist/plugins/map/index.js"
     },
     "./plugins/html": {
-      "import": "./dist/plugins/html/index.js",
-      "types": "./dist/plugins/html/index.d.ts"
+      "types": "./dist/plugins/html/index.d.ts",
+      "import": "./dist/plugins/html/index.js"
     },
     "./plugins/upstream": {
-      "import": "./dist/plugins/upstream.js",
-      "types": "./dist/plugins/upstream.d.ts"
+      "types": "./dist/plugins/upstream.d.ts",
+      "import": "./dist/plugins/upstream.js"
     },
     "./map-worker": {
-      "import": "./dist/map-worker.js",
-      "types": "./dist/map-worker.d.ts"
+      "types": "./dist/map-worker.d.ts",
+      "import": "./dist/map-worker.js"
     },
     "./plugins/map/styles.css": "./dist/plugins/map/styles.css"
   },

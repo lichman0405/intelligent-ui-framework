@@ -1,6 +1,6 @@
 # Security model
 
-Artifacts, expressions, source, state and tool arguments are untrusted. The Framework renders OpenUI Lang with the official parser/runtime; it does not evaluate arbitrary JavaScript, expose Node/Electron objects, or own a model/tool loop.
+Artifacts, expressions, source, state and tool arguments are untrusted. Core uses the official parser/runtime with no Node/Electron exposure or model/tool loop. Explicit HtmlView registration permits script execution only in an opaque iframe sandbox.
 
 ## Controls implemented
 
@@ -12,7 +12,8 @@ Artifacts, expressions, source, state and tool arguments are untrusted. The Fram
 - No mutation runs during initial state hydration. Durable mutation idempotency, approval, authentication, resource ownership, retries and auditing remain Host duties. In-flight deduplication is not durable transaction control.
 - HTTP(S)-only, credential-free URLs. Navigation/copy actions require Host ports. Images use `no-referrer`; image searches require an optional Host resolver and have no built-in `/api/*` endpoint.
 - CSS prop helpers reject resource loads, expressions and unsafe tokens. Theme variables are scoped to `.iui-root`; they do not change Host global variables.
-- HtmlView is excluded. Math uses patched KaTeX with `trust:false`, bounded macro expansion and size. Trusted video mode is separate `core-trusted` identity and uses a fixed YouTube no-cookie embed origin.
+- HtmlView is excluded from core and available through explicit registration. Its opaque sandbox has `allow-scripts` only, restrictive CSP, size/height bounds and frame-source-checked height messages. Streaming HTML stays dormant. Parent CSP must prohibit external iframe self-navigation; see `OPTIONAL_CAPABILITIES.md`. No iframe Host/tool channel exists. Math uses patched KaTeX with `trust:false` and bounded macro expansion. Video uses a fixed YouTube no-cookie origin.
+- Optional public adapters omit credentials, reject redirects, validate URLs/coordinates, bound streamed responses/concurrency/cache, time out requests and abort on lifecycle cleanup. Host endpoints/styles/plugins are trusted configuration and cannot come from wire data.
 
 ## Host deployment requirements and limits
 
@@ -30,7 +31,7 @@ For installation without dependency scripts:
 
 ```powershell
 $env:OPENUI_TELEMETRY_DISABLED = "1"
-npm install --ignore-scripts path/to/intelligent-ui-framework-0.1.0.tgz react@19 react-dom@19 zod@4
+npm install --ignore-scripts path/to/intelligent-ui-framework-0.2.0.tgz react@19 react-dom@19 zod@4
 ```
 
 The initial production `npm audit` found [GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7) in upstream KaTeX 0.16.47. The Framework pins the patched 0.18.2 release; actual final audit output is `artifacts/npm-audit-production.json`. Package versions, tests and browser evidence are in the delivery report. Audit results describe the registry at verification time, not a future guarantee.

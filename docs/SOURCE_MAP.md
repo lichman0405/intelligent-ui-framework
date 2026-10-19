@@ -21,14 +21,14 @@ The reference is an OpenUI-powered Next.js application. This project uses its re
 | `src/lib/components/svg.tsx` | Declarative SVG drawing primitives | Reused with SVG-only shapes; never evaluates arbitrary script |
 | `src/lib/components/extra.tsx` | Carousel, Popover, Code, Quote, Math, YouTube, Flashcard, Celebration | Reused selectively; iframe URLs are fixed to YouTube embed origin |
 | `src/lib/components/media.tsx` | Icon, Image, SearchImage | Adapted so search is a host resolver, not a hard-coded local API |
-| `src/lib/components/map/*` | MapLibre map and street-route behavior | Optional/blocked from the core registry pending resolver-only route implementation and isolated dependency packaging |
-| `src/lib/components/html-view.tsx` | Generated HTML/JS view | Excluded from core and trusted extras; unsafe execution remains disabled |
+| `src/lib/components/map/*` | MapLibre map and street-route behavior | Adapted under `src/plugins/map`; Host-only routing, separate peer/CSS/worker, offline default and bounded markers/geometry |
+| `src/lib/components/html-view.tsx` | Generated HTML/JS view | Reimplemented under `src/plugins/html` with original signature and opaque CSP sandbox; no Host access |
 | `src/lib/functions/*` | Data, date, list, number, color, and text functions | Reused with original upstream tests plus boundary checks |
 | `src/lib/actions.ts` | Clipboard and OpenUI action events | Adapted to explicit host ports; browser clipboard fallback remains user-gesture scoped |
 | `src/lib/prompt-options.ts` | Prompt rules and worked examples | Reused/adapted; prompt generation uses official `generateSystemPrompt` over generated spec |
 | `src/generated/spec.json` | Serialized component/function/action spec | Regenerated from this package's registry; no Next.js dependencies |
-| `src/app/gallery/*` | Runnable hand-authored OpenUI examples | Rebuilt as a Vite React demo; examples are tested with the real Renderer |
-| `scripts/bench/*` | Upstream model/API benchmark | Not copied; Framework does not call an LLM. A deterministic gallery/mock-stream check replaces it |
+| `src/app/gallery/*` | Runnable original programs | Copied to `src/gallery`, public metadata and standalone Demo; 45 programs including prompt examples |
+| `scripts/bench/*` | Model/API benchmark | 24 prompts copied; runner reimplemented as neutral API and optional local SSE CLI |
 | `src/app/page.tsx`, `src/app/api/*`, `chat-storage.tsx` | Chat, model API, app storage, and app routes | Excluded by design |
 
 ## Provenance
@@ -42,5 +42,6 @@ The component and function implementations adapted from the MIT reference retain
 - Original implementation: `src/protocol/`, `src/prompt/`, `src/react/{host,renderer,index,library}`; public root entry, styles entry, packaging/build/verification scripts, standalone demo shell and its 16 samples, protocol/host/rendering/security tests, and Framework docs.
 - Generated: `src/generated/*-spec.json` comes from the corresponding actual library `toSpec()` output. It is checked in for review and drift-tested.
 
-KaTeX was upgraded from upstream 0.16.47 to patched 0.18.2 after the production advisory audit. Its bundled CSS/font license is reproduced under `docs/licenses/`.
+Additional direct copies: `src/gallery/{programs,composition-programs,tool-programs,demo-data}.ts`, `src/plugins/scheme.ts`, `src/plugins/map/{map-utils,use-dialog}.ts`, `tools/bench/prompts.json`. Modified copies: `src/prompt/presets.ts`, `src/plugins/map/{map.tsx,map.css,basemap.ts}`. New implementations: registry/plugin APIs, Host route hook, HTML sandbox, map configuration/asset entry, adapters, benchmark API/CLI and gallery index.
 
+KaTeX was upgraded to patched 0.18.2. Bundled KaTeX CSS/fonts and MapLibre worker/CSS licenses are under `docs/licenses/`.

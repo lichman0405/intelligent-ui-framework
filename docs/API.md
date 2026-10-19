@@ -1,4 +1,4 @@
-# Public API 0.1.0
+# Public API 0.2.0
 
 ## Imports and versions
 
@@ -10,7 +10,7 @@
 | `@intelligent-ui/framework/prompt` | Generated LibrarySpec + official lang-core prompt generator; no React import |
 | `@intelligent-ui/framework/styles.css` | Explicit component/theme/KaTeX styles and packaged font assets |
 
-`packageVersion = 0.1.0`, `protocolVersion = 1.0`, `core libraryVersion = 0.1.0`. Default validation accepts the exact `core@0.1.0` signature. It rejects unknown IDs and versions. `core-trusted@0.1.0` adds the fixed-origin YouTube component and requires explicit renderer mode. Package and library versions may evolve independently.
+`PACKAGE_VERSION = 0.2.0`, `PROTOCOL_VERSION = 1.0`, `LIBRARY_VERSION = 0.1.0`. Core signatures remain compatible. Explicit Host registration supports custom IDs/versions and the complete `upstream@0.1.0` library. See `OPTIONAL_CAPABILITIES.md` for `/plugins/map`, `/plugins/html`, `/plugins/upstream`, `/adapters`, `/gallery` and `/benchmark` exports.
 
 ## Artifact and validation
 
@@ -23,7 +23,7 @@ else showFallback(result.errors);
 const artifact = createArtifact(source, "stable-artifact-id", state);
 ```
 
-`validateArtifact` returns `{success:true,data}` with a defensive JSON copy, or `{success:false,errors}`. It validates kind, protocol, library signature, semantic version, strings, metadata, JSON state, and limits. `validateJSON` and `validateState` are also public. The default limits are 1 MiB total JSON, 256 KiB source, 256 KiB state, depth 32, and 30,000 JSON nodes. Use `ArtifactValidationOptions.limits` to lower them. Standalone validators can accept an explicit `supportedLibraries` version map; the React wrapper only supports its two shipped registries.
+`validateArtifact` returns `{success:true,data}` with a defensive JSON copy, or `{success:false,errors}`. It validates kind, protocol, library signature, semantic version, strings, metadata, JSON state, and limits. `validateJSON` and `validateState` are also public. The default limits are 1 MiB total JSON, 256 KiB source, 256 KiB state, depth 32, and 30,000 JSON nodes. Use `ArtifactValidationOptions.limits` to lower them. Standalone validators can accept an explicit `supportedLibraries` version map; the React wrapper accepts only signatures from the Host-supplied registry.
 
 The renderer passes raw state unchanged in meaning. **Bound variables use `$` keys**: persist `{"$x":8}` rather than `{"x":8}`. Other keys contain OpenUI form-state records. The real fixture is `docs/fixtures/artifact-v1.json` (also tracked under tests). This replaces the handoff's illustrative example without changing the wire schema.
 
@@ -45,11 +45,11 @@ The renderer passes raw state unchanged in meaning. **Bound variables use `$` ke
 
 Accumulated `artifact.source` is forwarded to the official Renderer with `isStreaming`, `initialState = artifact.state`, `onAction`, `onStateUpdate`, `onError`, and an allowlisted `toolProvider`. Forward references, expressions, form state, Query and Mutation remain OpenUI runtime behavior. Keep Host adapter object identity stable with `useMemo` or module scope. A changed adapter disposes the previous capability bridge.
 
-The lifecycle identity is `(artifactId, hostSessionId, hostTurnId, mode)`. Streaming updates within it preserve the mounted renderer; a changed identity remounts state and invalidates pending requests. `artifact.state` is initial hydration, not a controlled state prop. To reload a saved snapshot for the same identity, remount the component with a React `key`.
+The lifecycle identity is `(artifactId, libraryId, libraryVersion, hostSessionId, hostTurnId, mode)`. Streaming updates within it preserve the mounted renderer; a changed identity remounts state and invalidates pending requests. `artifact.state` is initial hydration, not a controlled state prop. To reload a saved snapshot for the same identity, remount the component with a React `key`.
 
 Final source is preflighted with the official parser before mounting a tool-capable view. Invalid artifacts, unknown components/functions, unresolved/incomplete final source and render errors produce a safe fallback. Streaming partial source remains previewable. Query/Mutation data-source failures stay in the view and are reported, so Host may offer retry. Diagnostic objects contain at least `code` and `message`; never parse message text as an API.
 
-`createIuiLibrary({ trustedExtras?: boolean })` creates an official OpenUI Library. `library` and `trustedLibrary` are stable module-level instances. Create libraries outside render loops. Arbitrary HTML/JS and MapLibre are not registered.
+`createIuiLibrary({trustedExtras?,id?,plugins?})` creates an official OpenUI Library. `library` and `trustedLibrary` are stable instances. `createIuiRegistry(...{id,version,library})` supplies trusted registrations through the Renderer's `registry` prop; `validation.supportedLibraries` cannot override that registry. Default core excludes map/HTML; explicit plugins enable them. Create libraries and registries outside render loops.
 
 ## Host adapter
 
@@ -61,7 +61,7 @@ Additive runtime capabilities in 0.1.0:
 | --- | --- |
 | `allowedTools?: readonly string[]` | Empty by default. Only explicitly named tools reach `invokeTool`. No raw MCP client is accepted by this wrapper |
 | `resolveImage?(query, ctx)` | Returns `Promise<readonly {url:string;alt?:string}[]>`. Results are bounded and HTTP(S)-validated; absent/failing resolvers yield placeholders |
-| `resolveRoute?(points, ctx)` | Reserved typed Host port, not consumed by the currently disabled map plugin |
+| `resolveRoute?(points, ctx)` | Map plugin road geometry in `[latitude,longitude]`; absent/failing capability yields direct connections |
 | `onDispose?(ctx)` | Host notification to cancel its underlying requests when a bridge is replaced/unmounted |
 
 `@ToAssistant` becomes `{kind:"continue_conversation",message,formState}`. Registered custom actions become `{kind:"custom_action",name,params}`. `CopyToClipboard` uses `copyText` when supplied. OpenUrl and rendered Markdown/Link clicks use `openUrl`; URLs with unsafe schemes or credentials are rejected. An unknown action is rejected.

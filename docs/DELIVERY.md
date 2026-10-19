@@ -1,10 +1,10 @@
-# Local delivery 0.1.0
+# Local delivery 0.2.0
 
 ## Deliverable
 
 - Repository: the `intelligent-ui-framework/` directory containing this document, independently initialized on `feat/standalone-framework` with no remote.
-- npm package: `@intelligent-ui/framework@0.1.0`.
-- Tarball: `artifacts/intelligent-ui-framework-0.1.0.tgz` at the repository root. No registry publication or Git push is performed.
+- npm package: `@intelligent-ui/framework@0.2.0`.
+- Tarball: `artifacts/intelligent-ui-framework-0.2.0.tgz` at the repository root. No registry publication or Git push is performed.
 - Frozen wire contract: `docs/03_CONTRACT_V1.md`; real fixture: `docs/fixtures/artifact-v1.json`.
 - Integrator starts with `README.md`, `docs/API.md`, `docs/HOST_INTEGRATION.md` and the tarball. No private import or reference repository is needed.
 
@@ -21,6 +21,10 @@ The `artifacts/` folder is generated locally and intentionally excluded from Git
 | `demo-light.png`, `demo-dark.png`, `demo-mobile.png` | Screenshots captured from the installed tarball consumer, not the source workspace |
 | `npm-audit-production.json` | Production dependency advisory report after patching KaTeX |
 | `node22-validation.log`, `node26-validation.log` | Native Windows library build/type/test evidence |
+| `upstream-browser-results.json`, `upstream-{map,html}-zod-*.png` | Matching tarball hash; 45 original programs per Zod version, actual MapLibre worker, pins/filter/expand, fixture resolver calls, opaque HTML scripts/canvas/CSP/streaming/height checks |
+| `adapter-live-results.json` | Actual public Wikipedia/OSRM probe, separately identified from deterministic browser interception |
+| `benchmark/results.json` | 45 original fixture programs streamed through the official parser; sources/chunks/latency/errors |
+| `consumer-core-only.log` | Strict core types/SSR/prompt/benchmark with MapLibre absent and zero network requests |
 
 Reproduce from a fresh repository install:
 
@@ -33,17 +37,19 @@ New-Item -ItemType Directory -Force artifacts
 npm pack --pack-destination artifacts --json > artifacts/pack.json
 npm run verify:consumers -- --both
 npm run verify:browser
+npm run verify:upstream-browser
+npm run bench:fixtures
 npm audit --omit=dev --json > artifacts/npm-audit-production.json
 ```
 
 `verify:browser` uses an existing Chrome/Edge executable. Set `IUI_BROWSER_PATH` if needed. It serves only the clean fixture's production `dist`, blocks external page requests and records any browser errors.
 
-Native Node 22.12.0 and 26.7.0 builds and all 334 tests (11 files) passed. Both React 19.2.3 / Zod 3.25.76 and 4.4.3 clean consumers passed strict types, SSR/import checks and production builds. Chrome 155.0.8059.80 passed all 16 examples per consumer plus state, streaming, action/tool, theme and mobile checks with no page/console errors or external requests. Production npm audit reports zero advisories after the KaTeX patch.
+Current acceptance covers 353 tests in 15 files, including 271 original function tests; strict types/builds on Node 22.12.0 and 26.7.0; clean React 19.2.3 consumers using Zod 3.25.76 and 4.4.3; and a core-only consumer without MapLibre. Machine reports identify the exact package tested. Browser suites exercise the 16 framework examples and all 45 original programs per consumer. Original-gallery media responses are intercepted deterministic fixtures; intentional CSP violations are checked separately. A separate live probe returned Wikipedia image results and 179 OSRM route coordinates. No live model request was made because no model endpoint/key was supplied.
 
 Stage commits and resolved failures are recorded in `docs/PROGRESS.md`. Machine evidence beside the tarball identifies the exact packaged build; `artifacts/reproducibility.json` records whether rebuilding and packing produces identical bytes.
 
 ## Limits and next integration work
 
-Map/MapMarker remain deferred; a future optional plugin must isolate MapLibre and consume Host route resolvers. HtmlView remains disabled. Trusted extras currently add only fixed-origin YouTube. The shipped wrapper supports its exact core registry signatures; customized official OpenUI libraries need their own new library ID/version and integration wrapper.
+All 55 original components are available through explicit `upstream@0.1.0` registration. Core remains 51 components and `core-trusted` adds YouTube. Maps have separate optional runtime/CSS/worker assets and Host-only route resolution. HtmlView runs in an opaque script sandbox with restrictive child CSP; Host parent CSP is required to prevent external frame self-navigation. Custom components/functions/actions use the public registry API with distinct signatures. Full presets/gallery, image/route/browser/storage adapters and provider-neutral benchmark are included; see `OPTIONAL_CAPABILITIES.md`.
 
 ESM only; CommonJS is intentionally unexported. React 19 and the two tested Zod versions are the initial peer scope. Other browsers and real Electron/Forge are not certified. Full registry imports retain KaTeX and by-name Lucide support, resulting in a Vite large-chunk warning. Host still owns native cancellation, approval, durable mutation idempotency, storage and CSP.

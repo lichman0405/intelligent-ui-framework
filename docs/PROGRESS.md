@@ -2,6 +2,22 @@
 
 Last updated: 2026-10-19
 
+## 0.2 parity completion
+
+Protocol 1.0 and core@0.1.0 remain compatible. Local implementation commit: `240bfa2`.
+
+- Implemented map and sandboxed HTML plugins, all 55 original components, explicit custom registries and plugin actions/functions.
+- Added Wikipedia/Commons/OSRM ports with bounded I/O and cancellation, caller-owned storage/navigation/clipboard ports.
+- Preserved the complete prompt rules/presets and all 45 original programs (19 component, 4 composition, 18 tools, 4 prompt examples), alongside 16 framework examples.
+- Added provider-neutral benchmark API, original 24 live prompts and fixture/saved/SSE local CLI; 45 streamed fixture programs passed the official parser.
+- Native Node 22.12.0 and 26.7.0 type/build/test checks: 353 tests in 15 files, including 271 original function tests.
+- Strict clean tarball consumers: React 19.2.3 with Zod 3.25.76 / 4.4.3, plus a core-only install without MapLibre. Exact final tarball identity is in `artifacts/consumer-results.json`.
+- Chrome exercised all 45 original programs, actual packaged map worker, pins/selection/filter/expansion, image/route ports and iframe scripts/canvas/isolation/streaming/height checks in both Zod consumers. Separate core browser checks cover all 16 examples, state, stream/actions/tools/themes/mobile. Final reports bind to the tarball SHA.
+- Separate live public-service probe returned 2 Wikipedia images and 179 OSRM coordinates. Deterministic browser routes are labeled fixtures; live model execution remains untested without credentials.
+- Production audit: zero advisories. MapLibre worker/CSS license is bundled. All implementation/docs commits are local; no remote or push.
+
+The remaining sections retain the original 0.1 phase history. Current limits and APIs are described in `DELIVERY.md` and `OPTIONAL_CAPABILITIES.md`.
+
 ## Baseline
 
 - Upstream reference: `thesysdev/open-intelligent-ui`
@@ -53,7 +69,6 @@ Last updated: 2026-10-19
 
 ## Next
 
-1. The independent integrator should install `artifacts/intelligent-ui-framework-0.1.0.tgz`, read `docs/HOST_INTEGRATION.md`, and consume only public exports and the real artifact fixture.
+1. The independent integrator should install `artifacts/intelligent-ui-framework-0.2.0.tgz`, read `docs/HOST_INTEGRATION.md` and `docs/OPTIONAL_CAPABILITIES.md`, and consume public exports and the real artifact fixture.
 2. Forge/Electron integration is intentionally unexecuted here. Host owns IPC, native cancellation, permissions/approval, persistence, CSP and durable mutation idempotency.
-3. Known limits: ESM only; Map/MapMarker deferred, HtmlView disabled, full registry has a Vite size warning. See `docs/COMPATIBILITY.md` and `docs/PARITY_MATRIX.md`.
-
+3. Known limits: ESM only, Chromium acceptance scope, large full-demo chunks, Host-owned iframe parent CSP/native permissions and unexecuted live-model credentials. Map/MapMarker and HtmlView are now explicit plugins. See `docs/COMPATIBILITY.md` and `docs/PARITY_MATRIX.md`.

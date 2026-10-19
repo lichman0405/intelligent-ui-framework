@@ -14,7 +14,7 @@ Last updated: 2026-10-19
 
 - [x] F0: source map, parity inventory, architecture, and contract freeze recorded.
 - [x] F1: publishable core, renderer wrapper, scoped theme, 16-sample Vite demo, npm tarball and clean Zod 4 consumer.
-- [ ] F2: state, components, actions, tool boundary, streaming, and safety coverage.
+- [x] F2: state, components, actions, allowlisted tools, bounded requests, disposal, replay safety, optional resolvers and trusted video gating.
 - [ ] F3: generated component spec and model-independent prompt API; gallery/mock-stream verification.
 - [ ] F4: compatibility/security checks, clean npm consumer, package tarball, docs, and final local commit.
 
@@ -31,6 +31,8 @@ Last updated: 2026-10-19
 - `npm pack --pack-destination artifacts`: passed; tarball installed into sibling `../consumer-validation/zod-4.4.3/` with no reference/Forge sources.
 - `npm run verify:consumers -- --offline`: clean Zod 4 consumer passed ESM/SSR, protocol/prompt, zero-default-network smoke, strict consumer typecheck, and production Vite bundle.
 - Vitest's Windows sandbox temp rename failed initially. `scripts/test.mjs` now puts its temp cache under this repository and sets UTC; no product date semantics changed.
+- F2 targeted Host/integration suite: 20 tests passed, including no automatic mutation on hydration/replay, unknown tools/actions, URL schemes, resolver behavior, concurrent request/action deduplication, request budgets and lifecycle cancellation.
+- Completed-source preflight uses the official parser and prevents an invalid completed artifact from mounting a tool-capable Renderer. Unknown/incomplete source produces a diagnostic and safe fallback.
 
 ## Next
 

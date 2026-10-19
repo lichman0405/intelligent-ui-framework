@@ -244,7 +244,7 @@ export const Celebration = defineComponent({
       return () => clearTimeout(t);
     }, [burst]);
     if (!burst || typeof document === "undefined") return null;
-    return createPortal(
+    return (
       <div className="iui-confetti" aria-hidden key={burst}>
         {Array.from({ length: 70 }, (_, i) => (
           <i
@@ -259,8 +259,7 @@ export const Celebration = defineComponent({
             }}
           />
         ))}
-      </div>,
-      document.body,
+      </div>
     );
   },
 });

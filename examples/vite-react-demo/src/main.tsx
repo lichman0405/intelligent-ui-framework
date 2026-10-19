@@ -1,10 +1,11 @@
-import { StrictMode, useMemo, useRef, useState } from "react";
+import { StrictMode, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { IntelligentUIRenderer, createArtifact, type JSONValue, type UIHostAdapter } from "@intelligent-ui/framework";
 import { createSystemPrompt } from "@intelligent-ui/framework/prompt";
 import "@intelligent-ui/framework/styles.css";
 import "./demo.css";
 import { samples } from "./samples";
+const systemPrompt = createSystemPrompt();
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -16,6 +17,7 @@ function App() {
   const state = useRef<Record<string, JSONValue>>({});
   const saved = useRef<Record<string, JSONValue>>({});
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  useEffect(() => () => { if (timer.current) clearInterval(timer.current); }, []);
   const log = (event: unknown) => setEvents(e => [JSON.stringify(event), ...e].slice(0, 8));
   const host = useMemo<UIHostAdapter>(() => ({
     allowedTools: ["demo_read", "demo_save"],
@@ -39,7 +41,7 @@ function App() {
       <section className="preview"><h2>{sample.title}</h2><div className="toolbar"><button onClick={start}>Mock stream</button><button onClick={stop} disabled={!streaming}>Interrupt</button><button onClick={() => { saved.current = state.current; log({ savedState: saved.current }); }}>Save state</button><button onClick={() => reload(r => r + 1)}>Reload state</button></div>
         <IntelligentUIRenderer key={revision} artifact={artifact} hostAdapter={host} theme={theme} isStreaming={streaming} onError={errors => { if (errors.length) log({ errors }); }} />
         <details><summary>OpenUI Lang source</summary><pre>{stream ?? sample.source}</pre></details>
-        <details><summary>Generated system prompt</summary><pre>{createSystemPrompt()}</pre></details>
+        <details><summary>Generated system prompt</summary><pre>{systemPrompt}</pre></details>
       </section>
     </div><section className="events"><h2>Host events</h2><pre>{events.join("\n") || "Interact with the UI to see structured events."}</pre></section>
   </main>;

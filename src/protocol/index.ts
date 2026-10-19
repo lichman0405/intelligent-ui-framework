@@ -57,7 +57,7 @@ export function validateJSON(value: unknown, options: Partial<ValidationLimits> 
     if (v === null || typeof v === "string" || typeof v === "boolean") return;
     if (typeof v === "number" && Number.isFinite(v)) return;
     if (typeof v !== "object" || !v) return { code: "invalid-json", message: "Expected finite JSON data", path };
-    if (seen.has(v)) return { code: "invalid-json", message: "Cyclic/shared objects are not wire JSON", path };
+    if (seen.has(v)) return { code: "invalid-json", message: "Cyclic objects are not wire JSON", path };
     seen.add(v);
     if (!Array.isArray(v) && !isJsonRecord(v)) return { code: "invalid-json", message: "Only plain JSON objects are allowed", path };
     if (Object.getOwnPropertySymbols(v).length) return { code: "invalid-json", message: "Symbol properties are not wire JSON", path };

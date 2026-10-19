@@ -84,7 +84,6 @@
   --iui-photo-empty-icon: var(--iui-border-strong);
 }
 
-.iui-root[data-theme="dark"],
 .iui-root[data-theme="dark"] {
   color-scheme: dark;
   --iui-shadow: 0 4px 20px rgb(0 0 0 / 35%);

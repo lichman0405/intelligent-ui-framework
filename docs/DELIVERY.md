@@ -1,5 +1,9 @@
 # Local delivery 0.2.0
 
+## Subsequent source/documentation publication
+
+Following explicit user authorization on 2026-10-20, source and documentation are published at [GitHub](https://github.com/lichman0405/intelligent-ui-framework), with [Chinese](https://lichman0405.github.io/intelligent-ui-framework/zh-CN/) / [English](https://lichman0405.github.io/intelligent-ui-framework/en/) GitHub Pages documentation. The site adds a Pages-maintenance chapter, bringing the current handbooks to 12 chapters per language. The original 11-chapter archive and local-only notes below are historical delivery records. No npm registry publication is implied.
+
 ## 2026-10-20 documentation handoff
 
 Start with the [Chinese handbook](zh-CN/README.md) or [English handbook](en/README.md). Each language has 11 corresponding chapters, complete component/function signatures and 45 runnable OpenUI programs. Five shared React modules demonstrate static/reactive UI, streaming/state, tools, custom extensions and optional map/HTML. [Native scientific UI roadmap](en/ROADMAP.md) covers materials, chemistry, quantum computing and biology as planned built-in Desktop functionality without additional skills.

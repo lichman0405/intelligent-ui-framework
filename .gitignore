@@ -10,3 +10,8 @@ examples/**/dist/
 tests/consumers/**/node_modules/
 tests/consumers/**/dist/
 *.log
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+docs/.vitepress/.temp/
+docs/public/downloads/

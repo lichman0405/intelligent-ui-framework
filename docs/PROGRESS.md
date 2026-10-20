@@ -2,6 +2,15 @@
 
 Last updated: 2026-10-20
 
+## 2026-10-20 GitHub Pages publication
+
+- User explicitly authorized creating a GitHub repository and pushing reviewed files, superseding the initial local-only constraint for this publication.
+- Repository: `https://github.com/lichman0405/intelligent-ui-framework`; public documentation base: `/intelligent-ui-framework/`.
+- Added pinned VitePress 1.6.4, bilingual navigation/local search/API/Gallery/roadmap, OpenUI highlighting, safe source downloads and theme support. Handbooks now have 12 corresponding chapters per language including Pages maintenance.
+- Added default-branch Pages deployment and PR-only build validation through GitHub Actions, scoped token permissions, inferred base paths and optional custom-domain override. No personal access token is stored in source.
+- Publication review covers all publishable files and historical Git blobs; credentials/private keys/personal absolute paths were not matched. Local binaries, caches, logs, reports, reference sources and consumer fixtures remain excluded.
+- The earlier sections below describe the historical local-only 0.2.0 validation/handbook delivery. They do not prohibit this later user-authorized publication. Runtime npm version and verified local tarball remain unchanged.
+
 ## 2026-10-20 bilingual developer documentation
 
 - Added matching `docs/zh-CN/` and `docs/en/` handbooks, 11 chapters per language: onboarding, streaming/state, Host integration, optional plugins/adapters, Prompt/benchmark, development, deployment/diagnostics, generated API reference, 45 complete Gallery programs, index and native scientific UI roadmap.

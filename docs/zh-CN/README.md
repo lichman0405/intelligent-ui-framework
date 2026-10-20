@@ -28,6 +28,8 @@
 
 附录：[45 个完整 OpenUI 示例](GALLERY.md)；[共用 React 模块](../examples/README.md)。
 
+文档维护：[本地写作与 GitHub Pages 发布](PAGES.md)。
+
 ## 已实现边界
 
 - 核心 51 个组件、59 个库函数；`core-trusted` 增加 YouTube；显式 `upstream` 注册全部 55 个原项目组件。

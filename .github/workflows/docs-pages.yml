@@ -1,0 +1,74 @@
+name: Documentation and GitHub Pages
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'scripts/**'
+      - 'package*.json'
+      - 'tsconfig.json'
+      - '.github/workflows/docs-pages.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'scripts/**'
+      - 'package*.json'
+      - 'tsconfig.json'
+      - '.github/workflows/docs-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-pages-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'push' || github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22.12.0'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+        env:
+          OPENUI_TELEMETRY_DISABLED: '1'
+      - name: Build library and refresh generated API documentation
+        run: |
+          npm run build
+          npm run docs:generate
+          npm run docs:check
+      - name: Build static documentation
+        run: npm run docs:build
+        env:
+          DOCS_REPOSITORY: ${{ github.repository }}
+          DOCS_BRANCH: ${{ github.event.repository.default_branch }}
+          DOCS_BASE: ${{ vars.DOCS_BASE }}
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

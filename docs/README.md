@@ -2,6 +2,8 @@
 
 Updated / 更新：2026-10-20. Runtime / 运行时：`@intelligent-ui/framework@0.2.0`. Wire / 协议：`1.0`.
 
+Online / 在线：[中文](https://lichman0405.github.io/intelligent-ui-framework/zh-CN/) · [English](https://lichman0405.github.io/intelligent-ui-framework/en/)。[写作与发布](zh-CN/PAGES.md) / [Writing and deployment](en/PAGES.md).
+
 - [中文完整手册](zh-CN/README.md)
 - [Complete English handbook](en/README.md)
 - [中文原生科学 UI 升级路线](zh-CN/ROADMAP.md)

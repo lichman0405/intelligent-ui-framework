@@ -28,6 +28,8 @@ Applies to package `0.2.0`, wire protocol `1.0`, and library version `0.1.0` for
 
 Appendices: [45 complete OpenUI examples](GALLERY.md); [shared React modules](../examples/README.md).
 
+Documentation maintenance: [local writing and GitHub Pages publication](PAGES.md).
+
 ## Implemented scope
 
 - 51 core components and 59 library functions; `core-trusted` adds YouTube; explicit `upstream` registration provides all 55 original components.

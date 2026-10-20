@@ -73,7 +73,12 @@
     "prepack": "npm run build",
     "bench": "node tools/bench/run.mjs",
     "bench:fixtures": "node tools/bench/run.mjs --fixtures",
-    "verify:upstream-browser": "node scripts/verify-upstream-browser.mjs"
+    "verify:upstream-browser": "node scripts/verify-upstream-browser.mjs",
+    "docs:generate": "node scripts/build-docs.mjs",
+    "docs:check": "node scripts/check-docs.mjs",
+    "docs:dev": "node scripts/prepare-docs-site.mjs && vitepress dev docs --host 127.0.0.1",
+    "docs:build": "node scripts/prepare-docs-site.mjs && vitepress build docs",
+    "docs:preview": "vitepress preview docs --host 127.0.0.1"
   },
   "dependencies": {
     "@openuidev/lang-core": "1.0.0",
@@ -102,6 +107,7 @@
     "react-dom": "19.2.3",
     "typescript": "^5.9.0",
     "vite": "^7.1.0",
+    "vitepress": "1.6.4",
     "vitest": "^4.1.11",
     "zod": "4.4.3"
   },
@@ -112,5 +118,13 @@
     "maplibre-gl": {
       "optional": true
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lichman0405/intelligent-ui-framework.git"
+  },
+  "homepage": "https://lichman0405.github.io/intelligent-ui-framework/",
+  "bugs": {
+    "url": "https://github.com/lichman0405/intelligent-ui-framework/issues"
   }
 }

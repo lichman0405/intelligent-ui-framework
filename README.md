@@ -2,6 +2,8 @@
 
 ## Developer documentation / 开发者文档
 
+**Online / 在线：** [中文站](https://lichman0405.github.io/intelligent-ui-framework/zh-CN/) · [English site](https://lichman0405.github.io/intelligent-ui-framework/en/) · [GitHub](https://github.com/lichman0405/intelligent-ui-framework)
+
 - [中文完整使用与开发手册](docs/zh-CN/README.md)
 - [Complete English usage and development handbook](docs/en/README.md)
 - [Native scientific UI roadmap / 原生科学 UI 路线](docs/zh-CN/ROADMAP.md) · [English roadmap](docs/en/ROADMAP.md)
@@ -16,7 +18,7 @@ Standalone React 19 components, streaming OpenUI Lang rendering, recoverable JSO
 npm install --ignore-scripts ./artifacts/intelligent-ui-framework-0.2.0.tgz react@19 react-dom@19 zod@4
 ```
 
-The package is delivered as a local tarball. Nothing has been published.
+The npm package is delivered as a local tarball and has not been published to the npm registry. Source and documentation are hosted on GitHub.
 
 ```tsx
 import { IntelligentUIRenderer, createArtifact } from "@intelligent-ui/framework";
@@ -57,4 +59,14 @@ Use `npm run verify:consumers -- --both` after `npm pack --pack-destination arti
 
 Run `npm run verify:upstream-browser` for the complete original gallery, real MapLibre worker and sandbox checks. `npm run bench:fixtures` streams all 45 programs through the official parser. See the provider, saved-answer and OpenAI-compatible endpoint commands in [Prompt and benchmark](docs/en/PROMPT_BENCHMARK.md).
 
-Runtime telemetry in the official OpenUI dependency is opt-in; installation telemetry is disabled by the commands above. Core remains 51 components. Explicit map/HTML/video registration provides all 55 original components under a separate signature. No registry publication, Git push, or Electron/Forge certification is claimed.
+Runtime telemetry in the official OpenUI dependency is opt-in; installation telemetry is disabled by the commands above. Core remains 51 components. Explicit map/HTML/video registration provides all 55 original components under a separate signature. npm registry publication and Electron/Forge certification have not been performed.
+
+## Documentation website / 文档站
+
+```sh
+npm run docs:dev
+npm run docs:build
+npm run docs:preview
+```
+
+Edit paired Markdown under `docs/zh-CN` and `docs/en`. `docs:generate` refreshes API/Gallery from the built library; `docs:check` validates links, examples and language parity. Default-branch changes are published by `.github/workflows/docs-pages.yml`. See [Pages setup](docs/en/PAGES.md) / [文档站维护](docs/zh-CN/PAGES.md).

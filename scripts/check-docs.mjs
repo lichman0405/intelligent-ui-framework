@@ -7,7 +7,7 @@ import { pathToFileURL } from "node:url";
 import { createParser } from "@openuidev/lang-core";
 import { upstreamRegistration } from "../dist/plugins/upstream.js";
 const root = resolve("."), problems = [], checked = [];
-async function walk(path) { const files = []; for (const entry of await readdir(path, { withFileTypes: true })) { const full = resolve(path, entry.name); if (entry.isDirectory()) files.push(...await walk(full)); else files.push(full); } return files; }
+async function walk(path) { const files = []; for (const entry of await readdir(path, { withFileTypes: true })) { if ([".vitepress", "public"].includes(entry.name)) continue; const full = resolve(path, entry.name); if (entry.isDirectory()) files.push(...await walk(full)); else files.push(full); } return files; }
 const cn = (await readdir("docs/zh-CN")).filter(p=>p.endsWith(".md")).sort();
 const en = (await readdir("docs/en")).filter(p=>p.endsWith(".md")).sort();
 if (JSON.stringify(cn)!==JSON.stringify(en)) problems.push("Language chapter lists differ");

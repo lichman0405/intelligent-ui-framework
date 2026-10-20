@@ -9,7 +9,7 @@ Last updated: 2026-10-20
 - Added 5 complete React example modules using public exports. Documentation checks pass strict consumer TypeScript, literal Artifact syntax, 92 OpenUI blocks, 2 JSON blocks, chapter parity and local links. This is documentation validation, not a rerun of the 353 runtime tests.
 - Native roadmap explicitly includes materials, chemistry, quantum computing and computational biology. Desktop should ship/register interactive components itself, without user-installed skills. Planned domain widgets are not described as implemented 0.2.0 exports.
 - Kept the previously verified 0.2.0 tarball byte-for-byte unchanged. A dated handoff archive adds current source/built runtime, expanded bilingual docs/examples, baseline binary/evidence and a file hash manifest. Old consumer report paths remain historical evidence.
-- Documentation tooling: `node scripts/build-docs.mjs` (after runtime build), `node scripts/check-docs.mjs`, `node scripts/package-handoff.mjs` (native Windows .NET ZIP; fixed generated staging folder, archive destination must be new). Runtime package/protocol/library versions are unchanged. Local commits only, no push.
+- Documentation tooling: `node scripts/build-docs.mjs` (after runtime build), `node scripts/check-docs.mjs`, `node scripts/package-handoff.mjs` (native Windows .NET ZIP; fixed generated staging folder, atomic archive replacement and manifest excluding its own hash). Runtime package/protocol/library versions are unchanged. Local commits only, no push.
 
 ## 0.2 parity completion
 

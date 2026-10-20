@@ -9,8 +9,8 @@ const tarball="intelligent-ui-framework-0.2.0.tgz";
 const digest=buffer=>createHash("sha256").update(buffer).digest("hex");
 if(digest(await readFile(`artifacts/${tarball}`))!==baseline.sha256)throw Error("Verified tarball hash changed");
 if(documentation.status!=="passed")throw Error("Documentation checks have not passed");
-if(process.platform!=="win32")throw Error("This handoff archiver uses native Windows Compress-Archive");
-await mkdir(stage); // Never recursively remove/replace an existing handoff folder.
+if(process.platform!=="win32")throw Error("This handoff archiver uses native Windows .NET ZIP support");
+await mkdir(stage,{recursive:true}); // Reuse the fixed generated staging folder; never recursively delete it.
 for(const path of ["src","dist","docs","examples","tests","scripts","tools","package.json","package-lock.json","tsconfig.json","vitest.config.ts","README.md","LICENSE","THIRD_PARTY_NOTICES.md",".gitignore",".gitattributes"])await cp(path,join(stage,path),{recursive:true});
 await mkdir(join(stage,"artifacts"));
 const evidence=[tarball,"delivery-verification.json","documentation-checks.json","pack.json","consumer-results.json","browser-results.json","upstream-browser-results.json","adapter-live-results.json","npm-audit-production.json","reproducibility.json","node22-validation.log","node26-validation.log","consumer-core-only.log"];
@@ -22,6 +22,6 @@ async function walk(path){for(const entry of await readdir(path,{withFileTypes:t
 await walk(stage); records.sort((a,b)=>a.path.localeCompare(b.path));
 await writeFile(join(stage,"MANIFEST.json"),JSON.stringify({date,runtimeVersion:"0.2.0",runtimeTarballSha256:baseline.sha256,baselineCommit:baseline.commit,sourceCommit:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(),documentationStatus:documentation.status,files:records},null,2));
 const quote=value=>"'"+value.replaceAll("'","''")+"'";
-execFileSync("powershell.exe",["-NoLogo","-NoProfile","-NonInteractive","-Command",`Compress-Archive -LiteralPath ${quote(stage)} -DestinationPath ${quote(archive)} -Force`],{stdio:"inherit"});
+execFileSync("powershell.exe",["-NoLogo","-NoProfile","-NonInteractive","-Command",`Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::CreateFromDirectory(${quote(stage)}, ${quote(archive)}, [System.IO.Compression.CompressionLevel]::Optimal, $true)`],{stdio:"inherit"});
 const report={archive,sha256:digest(await readFile(archive)),files:records.length+1,runtimeTarballSha256:baseline.sha256,documentationStatus:documentation.status};
 await writeFile("artifacts/handoff-package.json",JSON.stringify(report,null,2));console.log(report);

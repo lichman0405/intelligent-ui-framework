@@ -1,5 +1,15 @@
 # Intelligent UI Framework
 
+## Developer documentation / 开发者文档
+
+- [中文完整使用与开发手册](docs/zh-CN/README.md)
+- [Complete English usage and development handbook](docs/en/README.md)
+- [Native scientific UI roadmap / 原生科学 UI 路线](docs/zh-CN/ROADMAP.md) · [English roadmap](docs/en/ROADMAP.md)
+
+The 2026-10-20 handbook update is delivered alongside the unchanged, verified 0.2.0 tarball. The dated handoff archive contains the expanded bilingual manuals and shared examples. Scientific components in the roadmap are planned native Desktop features, without additional skills; they are not implemented 0.2.0 exports.
+
+2026-10-20 的手册更新与已验证的 0.2.0 tarball 配套交付；按日期生成的交付包包含完整双语文档与共用示例。路线图中的科学组件将作为 Desktop 原生功能交付，无需额外 skill；它们不是 0.2.0 已实现的导出。
+
 Standalone React 19 components, streaming OpenUI Lang rendering, recoverable JSON state, controlled Host tools, and backend prompt generation. Official OpenUI Lang parser and React Renderer are runtime dependencies.
 
 ```sh
@@ -45,6 +55,6 @@ The Demo at `http://127.0.0.1:5173` contains 16 framework examples and a link to
 
 Use `npm run verify:consumers -- --both` after `npm pack --pack-destination artifacts`, then `npm run verify:browser` with an installed Chrome/Edge. The consumer script creates fresh directories named from the tarball hash outside this repository, installs only the tarball/public dependencies and checks both Zod peer versions.
 
-Run `npm run verify:upstream-browser` for the complete original gallery, real MapLibre worker and sandbox checks. `npm run bench:fixtures` streams all 45 programs through the official parser. `npm run bench -- --help` is not required: see the provider, saved-answer and OpenAI-compatible endpoint commands in [optional capabilities](docs/OPTIONAL_CAPABILITIES.md).
+Run `npm run verify:upstream-browser` for the complete original gallery, real MapLibre worker and sandbox checks. `npm run bench:fixtures` streams all 45 programs through the official parser. See the provider, saved-answer and OpenAI-compatible endpoint commands in [Prompt and benchmark](docs/en/PROMPT_BENCHMARK.md).
 
 Runtime telemetry in the official OpenUI dependency is opt-in; installation telemetry is disabled by the commands above. Core remains 51 components. Explicit map/HTML/video registration provides all 55 original components under a separate signature. No registry publication, Git push, or Electron/Forge certification is claimed.

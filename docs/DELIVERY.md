@@ -1,5 +1,13 @@
 # Local delivery 0.2.0
 
+## 2026-10-20 documentation handoff
+
+Start with the [Chinese handbook](zh-CN/README.md) or [English handbook](en/README.md). Each language has 11 corresponding chapters, complete component/function signatures and 45 runnable OpenUI programs. Five shared React modules demonstrate static/reactive UI, streaming/state, tools, custom extensions and optional map/HTML. [Native scientific UI roadmap](en/ROADMAP.md) covers materials, chemistry, quantum computing and biology as planned built-in Desktop functionality without additional skills.
+
+`artifacts/handoff-0.2.0-2026-10-20.zip` is a separate dated developer handoff containing source, built runtime, current bilingual documentation, examples, licenses, the unchanged verified 0.2.0 tarball and baseline evidence. `HANDOFF.md` and `MANIFEST.json` inside the archive explain entry points and file SHA-256 values. `artifacts/handoff-package.json` records archive integrity. The original tgz retains its release-time documentation; it is not silently replaced/repacked. Current expanded handbooks come from the archive/repository docs.
+
+`artifacts/documentation-checks.json` records language parity, links, JSON/OpenUI examples and strict TypeScript checks for the five complete example modules. Runtime evidence below remains the original 0.2.0 baseline, not a new scientific component or Desktop acceptance run. No native scientific widgets were implemented by this documentation update.
+
 ## Deliverable
 
 - Repository: the `intelligent-ui-framework/` directory containing this document, independently initialized on `feat/standalone-framework` with no remote.

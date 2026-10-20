@@ -4,7 +4,7 @@
 
 ## 1. Local writing and preview
 
-The site uses pinned VitePress 1.6.4 and the existing docs Markdown sources. No separate CMS, server or key is needed. Markdown remains readable on GitHub and in editors.
+The site uses pinned VitePress 1.6.4 and the existing docs Markdown sources. Use Node >=22.12.0 and npm 11.19.0 (the packageManager version); CI pins both. Older npm versions can reject the optional-peer lockfile. No separate CMS, server or key is needed. Markdown remains readable on GitHub and in editors.
 
 ```sh
 npm ci --ignore-scripts

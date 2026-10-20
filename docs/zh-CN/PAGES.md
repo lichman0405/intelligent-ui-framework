@@ -4,7 +4,7 @@
 
 ## 1. 本地写作与预览
 
-本项目使用固定版本 VitePress 1.6.4，文档源文件直接保存在 docs；无需另一个 CMS、服务端或密钥。已有 Markdown 文件仍可在 GitHub 和本地编辑器阅读。
+本项目使用固定版本 VitePress 1.6.4，文档源文件直接保存在 docs。使用 Node >=22.12.0 和 npm 11.19.0（packageManager 指定版本）；CI 固定这两个版本，旧版 npm 可能无法识别可选 peer 依赖的锁文件。无需另一个 CMS、服务端或密钥。已有 Markdown 文件仍可在 GitHub 和本地编辑器阅读。
 
 ```sh
 npm ci --ignore-scripts

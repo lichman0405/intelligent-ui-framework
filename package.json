@@ -4,6 +4,7 @@
   "description": "Standalone OpenUI Lang component framework and controlled host adapter",
   "license": "MIT",
   "type": "module",
+  "packageManager": "npm@11.19.0",
   "sideEffects": [
     "**/*.css"
   ],

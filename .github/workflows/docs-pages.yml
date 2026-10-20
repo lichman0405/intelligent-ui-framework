@@ -36,6 +36,8 @@ jobs:
         with:
           node-version: '22.12.0'
           cache: npm
+      - name: Use the lockfile's npm version
+        run: npm install --global npm@11.19.0 --ignore-scripts --no-audit --no-fund
       - name: Install locked dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
         env:
